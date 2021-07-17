@@ -2,7 +2,7 @@ const express = require('express');
 const { v4: uuidv4 } = require('uuid');
 const path = require('path');
 const fs = require('fs');
-const database = require('./Develop/db/db.json')
+const database = require('./db/db.json')
 
 const app = express();
 const PORT = process.env.PORT || 3000
@@ -12,11 +12,11 @@ app.use(express.json());
 app.use(express.static('public'));
 
 app.get('/', (req,res) => {
-	res.json(path.join(__dirname, './Develop/public/index.html'));
+	res.json(path.join(__dirname, './public/index.html'));
 });
 
 app.get('/notes', (req,res) => {
-	res.sendFile(path.join(__dirname, './Develop/public/notes.html'));
+	res.sendFile(path.join(__dirname, './public/notes.html'));
 })
 
 app.get('/api/notes', (req,res) => {
