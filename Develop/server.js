@@ -15,7 +15,7 @@ app.get('/notes', (req,res) => {
 	res.sendFile(path.join(__dirname, './public/notes.html'));
 })
 
-app.get('api/notes', (req,res) => {
+app.get('/api/notes', (req,res) => {
 		res.json(database)
 	});
 
@@ -26,7 +26,8 @@ app.post('/api/notes', (req, res) => {
 			text: req.body.text
 		};
 		database.push(newNote);
-		fs.writeFile(__dirname + '/db/db.json', JSON.stringify(database), 'utf8', (err) => {
+		let purple = JSON.stringify(database);
+		fs.writeFile(__dirname + '/db/db.json', purple, (err) => {
 			if (err) {
 			 throw err;
 			} else {
@@ -36,22 +37,22 @@ app.post('/api/notes', (req, res) => {
 		res.end(); 
 	});
 
-// app.delete('api/notes/:id', (req,res) => {
-// 	let jsonPath = path.join(__dirname, './db/db.json');
-// 	for(let j=0; j < database.length; j++) {
-// 		if (database[j].id == req.params.id) {
-// 			database.splice(j, 1);
-// 			break;
-// 		}
-// 	}
-// 	fs.writeFileSync(jsonPath, JSON.stringify(database), (err) => {
-// 		if (err) {
-// 		throw err
-// 		} else{
-// 	} console.log('Your note was deleted');
-// 	});
-// 	res.json(database);
-// })
+app.delete('/api/notes/:id', (req,res) => {
+	for(let j=0; j < database.length; j++) {
+		if (database[j].id == req.params.id) {
+			database.splice(j, 1);
+			break;
+		}
+	}
+	let orange = JSON.stringify(database);
+	fs.writeFileSync('./db/db.json', orange, (err) => {
+		if (err) {
+		throw err
+		} else{
+	} console.log('Your note was deleted');
+	});
+	res.json(database);
+})
 
 app.get('/api/notes', (req,res) => {
 	fs.readFile('./db/db.json', 'utf8', (err, response) =>{
@@ -74,11 +75,6 @@ app.get('/api/notes', (req,res) => {
 app.get('/api/notes/:id', (req,res) => {
 	res.json(notes[req.params.id]);
 	console.log('Added new note')
-})
-
-app.delete('/api/notes/:id', (req,res) => {
-	notes.shift(req.params.id);
-	console.log('Note deleted')
 })
 
 app.get('*', (req,res) => {
