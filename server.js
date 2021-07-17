@@ -12,7 +12,7 @@ app.use(express.json());
 app.use(express.static('public'));
 
 app.get('/', (req,res) => {
-	res.json(path.join(__dirname, 'public.index.html'));
+	res.json(path.join(__dirname, 'public/index.html'));
 });
 
 app.get('/notes', (req,res) => {
