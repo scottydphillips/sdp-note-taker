@@ -2,7 +2,7 @@ const express = require('express');
 const { v4: uuidv4 } = require('uuid');
 const path = require('path');
 const fs = require('fs');
-const database = require('./db/db.json')
+const database = require('./Develop/db/db.json')
 
 const app = express();
 const PORT = process.env.PORT || 3000
