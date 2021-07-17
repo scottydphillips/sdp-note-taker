@@ -64,14 +64,6 @@ app.get('/api/notes', (req,res) => {
 	})
 });
 
-// app.post('/api/notes', (req,res) => {
-// 	let newNote = req.body.id;
-// 	fs.writeFile('./db/db.json', JSON.stringify(newNote), 'utf8', (err) => {
-// 		if (err) throw err;
-// 	})
-// 	res.send(newNote);
-// })
-
 app.get('/api/notes/:id', (req,res) => {
 	res.json(notes[req.params.id]);
 	console.log('Added new note')
