@@ -1,18 +1,6 @@
 [
-    {
-        "title":"Test Title",
-        "text":"Test text"
-    },
-    {
-        "title": "fetch",
-        "text": "happening"
-    },
-    {
-        "title": "fetch",
-        "text": "not happening"
-    },
-    {
-        "title": "Glen Coco",
-        "text": "You Go"
-    }
+  {
+      "title": "purple",
+      "text": "purple"
+  }
 ]
