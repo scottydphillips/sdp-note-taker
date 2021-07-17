@@ -1,6 +1,8 @@
 const express = require('express');
+const { v4: uuidv4 } = require('uuid');
 const path = require('path');
 const fs = require('fs');
+const database = require('./db/db.json')
 
 const app = express();
 const PORT = process.env.PORT || 3000
@@ -13,35 +15,30 @@ app.get('/notes', (req,res) => {
 	res.sendFile(path.join(__dirname, './public/notes.html'));
 })
 
-// app.get('api/notes', (req,res) => {
-// 		res.json(database)
-// 	});
+app.get('api/notes', (req,res) => {
+		res.json(database)
+	});
 
-// app.post('api/notes', (req, res) => {
-// 		let jsonPath = path.join(__dirname, './db/db.json');
-// 		let newNote = req.body;
-// 		let highestNote = 99;
-// 		for(let i=0; i<database.length; i++) {
-// 			let singleNote = database[i];
-// 			if(singleNote.id > highestNote) {
-// 				highestNote = singleNote.id;
-// 			}
-// 		}
-// 		newNote.id = highestNote + 1;
-// 		database.push(newNote);
-// 		fs.writeFile(jsonPath, JSON.stringify(database), (err) => {
-// 			if (err) {
-// 			 throw err
-// 			} else{
-// 		 console.log('Your note was saved!')
-// 			}
-// 		})
-// 		res.json(newNote); 
-// 	});
+app.post('/api/notes', (req, res) => {
+		let newNote = {
+			id: uuidv4(),
+			title: req.body.title,
+			text: req.body.text
+		};
+		database.push(newNote);
+		fs.writeFile(__dirname + '/db/db.json', JSON.stringify(database), 'utf8', (err) => {
+			if (err) {
+			 throw err;
+			} else {
+		 console.log('Your note was saved!');
+			}
+		})
+		res.end(); 
+	});
 
 // app.delete('api/notes/:id', (req,res) => {
 // 	let jsonPath = path.join(__dirname, './db/db.json');
-// 	for(let j=0; j<database.length; j++) {
+// 	for(let j=0; j < database.length; j++) {
 // 		if (database[j].id == req.params.id) {
 // 			database.splice(j, 1);
 // 			break;
@@ -66,13 +63,13 @@ app.get('/api/notes', (req,res) => {
 	})
 });
 
-app.post('/api/notes', (req,res) => {
-	let newNote = req.body.id;
-	fs.writeFile('./db/db.json', JSON.stringify(newNote), 'utf8', (err) => {
-		if (err) throw err;
-	})
-	res.send(newNote);
-})
+// app.post('/api/notes', (req,res) => {
+// 	let newNote = req.body.id;
+// 	fs.writeFile('./db/db.json', JSON.stringify(newNote), 'utf8', (err) => {
+// 		if (err) throw err;
+// 	})
+// 	res.send(newNote);
+// })
 
 app.get('/api/notes/:id', (req,res) => {
 	res.json(notes[req.params.id]);
